@@ -58,7 +58,7 @@ const translations = {
     "btn-download": "下载 PNG",
     "card3-title": "3. 推特渲染模拟器",
     "timeline-title": "移动端 Timeline 预览",
-    "timeline-hint": "每2x2像素降采样为1个像素 (Offset 0,1)",
+    "timeline-hint": "模拟推特：2x2 双线性插值缩放 + Alpha 阈值截断",
     "timeline-desc": "在推特时间线浏览时，算法仅采纳表图像素点，里图完全隐藏。",
     "click-title": "点击大图预览",
     "click-hint": "每2x2像素降采样为1个像素 (Offset 1,1)",
@@ -112,7 +112,7 @@ const translations = {
     "btn-download": "Download PNG",
     "card3-title": "3. Twitter Render Simulator",
     "timeline-title": "Mobile Timeline Preview",
-    "timeline-hint": "Downsampled 2x2 pixels to 1 pixel (Offset 0,1)",
+    "timeline-hint": "Simulated Twitter: 2x2 Bilinear Downsampling + Alpha Thresholding",
     "timeline-desc": "When browsing on the timeline, the algorithm only selects cover pixels; the hidden image is completely concealed.",
     "click-title": "Click to Expand Preview",
     "click-hint": "Downsampled 2x2 pixels to 1 pixel (Offset 1,1)",
@@ -166,7 +166,7 @@ const translations = {
     "btn-download": "PNG をダウンロード",
     "card3-title": "3. Twitterレンダリングシミュレーター",
     "timeline-title": "モバイル版タイムラインのプレビュー",
-    "timeline-hint": "2x2ピクセルを1ピクセルにダウンサンプリング (オフセット 0,1)",
+    "timeline-hint": "Twitter模擬：2x2 バイリニア縮小 + Alpha 閾値処理",
     "timeline-desc": "タイムライン閲覧時は、アルゴリズムが表画像のピクセルのみをサンプリングするため、裏画像は完全に隠されます。",
     "click-title": "クリック拡大のプレビュー",
     "click-hint": "2x2ピクセルを1ピクセルにダウンサンプリング (オフセット 1,1)",
@@ -220,7 +220,7 @@ const translations = {
     "btn-download": "PNG 다운로드",
     "card3-title": "3. 트위터 렌더링 시뮬레이터",
     "timeline-title": "모바일 타임라인 미리보기",
-    "timeline-hint": "2x2 픽셀당 1픽셀로 다운샘플링 (오프셋 0,1)",
+    "timeline-hint": "트위터 시뮬레이션: 2x2 바이리니어 축소 + Alpha 임계값 처리",
     "timeline-desc": "트위터 타임라인에서 볼 때는 알고리즘이 겉 이미지의 픽셀만 채택하여 속 이미지는 완전히 숨겨집니다.",
     "click-title": "클릭 확대 미리보기",
     "click-hint": "2x2 픽셀당 1픽셀로 다운샘플링 (오프셋 1,1)",
@@ -777,27 +777,64 @@ function simulatePreviews(outputData: ImageData, width: number, height: number) 
       const baseCol = Math.floor(srcX / 2) * 2;
       const baseRow = Math.floor(srcY / 2) * 2;
 
-      // Extract offsets:
-      // Cover (ImgA) downsamples using Offset (0,1) -> Top-Right
-      const tx = baseCol + 1;
-      const ty = baseRow;
-
-      // Hidden (ImgB) downsamples using Offset (1,1) -> Bottom-Right
+      // Extract offsets for Hidden (ImgB) downsamples using Offset (1,1) -> Bottom-Right
       const fx = baseCol + 1;
       const fy = baseRow + 1;
-
-      // Map back to 1D index
-      const tIdx = (ty * width + tx) * 4;
       const fIdx = (fy * width + fx) * 4;
 
       const idx = (y * simWidth + x) * 4;
 
-      // Write pixels
-      tPixels[idx] = srcPixels[tIdx] ?? 0;
-      tPixels[idx + 1] = srcPixels[tIdx + 1] ?? 0;
-      tPixels[idx + 2] = srcPixels[tIdx + 2] ?? 0;
-      tPixels[idx + 3] = srcPixels[tIdx + 3] ?? 255;
+      // Simulate Twitter's Bilinear Downsampling + Alpha Thresholding for the Timeline Preview (tPixels)
+      const idx00 = (baseRow * width + baseCol) * 4;
+      const idx10 = (baseRow * width + (baseCol + 1)) * 4;
+      const idx01 = ((baseRow + 1) * width + baseCol) * 4;
+      const idx11 = ((baseRow + 1) * width + (baseCol + 1)) * 4;
 
+      const r00 = srcPixels[idx00] ?? 0;
+      const g00 = srcPixels[idx00 + 1] ?? 0;
+      const b00 = srcPixels[idx00 + 2] ?? 0;
+      const a00 = srcPixels[idx00 + 3] ?? 255;
+
+      const r10 = srcPixels[idx10] ?? 0;
+      const g10 = srcPixels[idx10 + 1] ?? 0;
+      const b10 = srcPixels[idx10 + 2] ?? 0;
+      const a10 = srcPixels[idx10 + 3] ?? 255;
+
+      const r01 = srcPixels[idx01] ?? 0;
+      const g01 = srcPixels[idx01 + 1] ?? 0;
+      const b01 = srcPixels[idx01 + 2] ?? 0;
+      const a01 = srcPixels[idx01 + 3] ?? 255;
+
+      const r11 = srcPixels[idx11] ?? 0;
+      const g11 = srcPixels[idx11 + 1] ?? 0;
+      const b11 = srcPixels[idx11 + 2] ?? 0;
+      const a11 = srcPixels[idx11 + 3] ?? 255;
+
+      const avgA = (a00 + a10 + a01 + a11) / 4;
+      let rOut = 0, gOut = 0, bOut = 0, aOut = 255;
+
+      if (avgA >= 128) {
+        const sumA = a00 + a10 + a01 + a11;
+        if (sumA > 0) {
+          rOut = Math.round((r00 * a00 + r10 * a10 + r01 * a01 + r11 * a11) / sumA);
+          gOut = Math.round((g00 * a00 + g10 * a10 + g01 * a01 + g11 * a11) / sumA);
+          bOut = Math.round((b00 * a00 + b10 * a10 + b01 * a01 + b11 * a11) / sumA);
+        } else {
+          rOut = Math.round((r00 + r10 + r01 + r11) / 4);
+          gOut = Math.round((g00 + g10 + g01 + g11) / 4);
+          bOut = Math.round((b00 + b10 + b01 + b11) / 4);
+        }
+      } else {
+        aOut = 0;
+      }
+
+      // Write Timeline Preview Pixels (Simulated)
+      tPixels[idx] = rOut;
+      tPixels[idx + 1] = gOut;
+      tPixels[idx + 2] = bOut;
+      tPixels[idx + 3] = aOut;
+
+      // Write Click-to-Expand Preview Pixels (NN Offset for ImgB extraction)
       fPixels[idx] = srcPixels[fIdx] ?? 0;
       fPixels[idx + 1] = srcPixels[fIdx + 1] ?? 0;
       fPixels[idx + 2] = srcPixels[fIdx + 2] ?? 0;
