@@ -51,11 +51,18 @@ ctx.onmessage = (e: MessageEvent) => {
     }
   }
 
-  // Force top-left 1x1 pixel to be semi-transparent (90% alpha) if enabled.
-  // Twitter's Android pipeline might strip fully transparent (0 alpha) pixels,
-  // but preserving a 90% alpha value forces the image format to remain PNG.
+  // Binarize all alpha values to 0 or 255 (threshold 128).
+  // The working case image has ZERO semi-transparent palette entries in its tRNS chunk.
+  // Twitter's image pipeline may handle semi-transparent indexed PNG pixels differently,
+  // compositing them in a way that blends both checkerboard phases together.
+  for (let i = 3; i < outPixels.length; i += 4) {
+    outPixels[i] = outPixels[i]! >= 128 ? 255 : 0;
+  }
+
+  // Force top-left 1x1 pixel to be fully transparent (alpha=0) if enabled.
+  // Having at least one transparent palette entry in tRNS forces Twitter to keep PNG format.
   if (forceTransparent && outPixels.length >= 4) {
-    outPixels[3] = 230; // 90% alpha (approx. 230/255)
+    outPixels[3] = 0;
   }
 
   // Notify main thread that we are starting compression
