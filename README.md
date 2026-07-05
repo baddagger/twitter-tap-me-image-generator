@@ -2,6 +2,8 @@
 
 A browser-based tool to generate interactive "click-to-reveal" double-layer images optimized for X (Twitter). The generated image displays a preview (cover) on the timeline thumbnail, but reveals a different hidden image when tapped or expanded.
 
+**[Try It Now](https://baddagger.github.io/twitter-tap-me-image-generator/)**
+
 ## Principle
 
 For the underlying downsampling mechanics and 4x4 T-Tetromino interlocking mask principles, refer to the detailed analysis in this [Zhihu Article](https://zhuanlan.zhihu.com/p/2035435716495328839).
