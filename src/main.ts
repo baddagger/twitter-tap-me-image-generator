@@ -389,6 +389,11 @@ function setupDragAndDrop(box: HTMLDivElement, input: HTMLInputElement, callback
     }
   });
 
+  // Stop propagation on input click to prevent bubbling that triggers box click again
+  input.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
   box.addEventListener('click', () => {
     input.click();
   });
