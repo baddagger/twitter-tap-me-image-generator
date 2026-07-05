@@ -30,7 +30,7 @@ const translations = {
   zh: {
     "subtitle": "推特新版“点开变图”双层图生成器",
     "card1-title": "1. 配置输入图像",
-    "card1-desc": "💡 表图（封面）是里图（大图）的一部分且位置对应时拥有最佳分离效果。",
+    "card1-desc": "💡 表图（封面）是里图（大图）的一部分且位置对应，且表图其余部分保持透明时拥有最佳效果（透明区域会触发系统 Alpha 阈值归零进而完全隐藏里图，而不透明区域会产生双图叠加混合）。",
     "label-thumb": "表图 (在推特时间线预览时显示的图片)",
     "upload-thumb-text": "点击或拖拽上传表图",
     "upload-thumb-hint": "建议使用比例 1:1，色彩较简单的图",
@@ -84,7 +84,7 @@ const translations = {
   en: {
     "subtitle": "Twitter Click-to-Reveal Double-Layer Image Generator",
     "card1-title": "1. Configure Input Images",
-    "card1-desc": "💡 Best effect is achieved when the cover image is a part of the hidden image and their positions align perfectly.",
+    "card1-desc": "💡 Best effect is achieved when the cover is a part of the hidden image (aligned), and the rest of the cover remains transparent (transparent areas trigger Alpha thresholding to fully hide the background, while solid areas will blend both layers).",
     "label-thumb": "Cover Image (Visible on timeline thumbnail)",
     "upload-thumb-text": "Click or drag to upload cover image",
     "upload-thumb-hint": "Recommended 1:1 ratio, simple color image",
@@ -138,7 +138,7 @@ const translations = {
   ja: {
     "subtitle": "Twitter新版「クリックで画像変化」ダブルレイヤー画像作成器",
     "card1-title": "1. 入力画像の設定",
-    "card1-desc": "💡 表画像が裏画像の一部であり、位置が完全に一致している場合に最高の効果が得られます。",
+    "card1-desc": "💡 表画像が裏画像の一部で位置が一致し、残りの部分が透明な場合に最高の効果が得られます（透明領域はAlpha閾値により裏画像を完全に隠し、不透明領域は両方の画像が混ざり合います）。",
     "label-thumb": "表画像 (タイムラインのサムネイルで表示される画像)",
     "upload-thumb-text": "クリックまたはドラッグで表画像をアップロード",
     "upload-thumb-hint": "アスペクト比 1:1、シンプルな配色の画像を推奨",
@@ -192,7 +192,7 @@ const translations = {
   ko: {
     "subtitle": "트위터 신버전 \"클릭하면 바뀌는 이미지\" 더블 레이어 이미지 생성기",
     "card1-title": "1. 입력 이미지 설정",
-    "card1-desc": "💡 겉 이미지가 속 이미지의 일부이고 위치가 일치할 때 가장 완벽한 효과를 낼 수 있습니다.",
+    "card1-desc": "💡 겉 이미지가 속 이미지의 일부이고 위치가 일치하며, 겉 이미지의 나머지 영역이 투명할 때 가장 좋은 효과를 냅니다 (투명 영역은 Alpha 임계값으로 인해 속 이미지를 완전히 숨기고, 불투명 영역은 두 이미지가 혼합됩니다).",
     "label-thumb": "겉 이미지 (타임라인 썸네일에서 보이는 이미지)",
     "upload-thumb-text": "클릭 또는 드래그하여 겉 이미지 업로드",
     "upload-thumb-hint": "1:1 비율 및 색상이 단순한 이미지 권장",
