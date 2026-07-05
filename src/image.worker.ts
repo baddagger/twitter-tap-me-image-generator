@@ -50,12 +50,11 @@ ctx.onmessage = (e: MessageEvent) => {
     }
   }
 
-  // Force top-left 1x1 pixel to be transparent if enabled
+  // Force top-left 1x1 pixel to be semi-transparent (90% alpha) if enabled.
+  // Twitter's Android pipeline might strip fully transparent (0 alpha) pixels,
+  // but preserving a 90% alpha value forces the image format to remain PNG.
   if (forceTransparent && outPixels.length >= 4) {
-    outPixels[0] = 0; // R
-    outPixels[1] = 0; // G
-    outPixels[2] = 0; // B
-    outPixels[3] = 0; // A
+    outPixels[3] = 230; // 90% alpha (approx. 230/255)
   }
 
   // Notify main thread that we are starting compression
