@@ -656,7 +656,7 @@ option {
   box-shadow: 0 2px 10px rgba(185, 99, 71, 0.12);
 }
 
-.btn-primary:hover {
+.btn-primary:not(:disabled):hover {
   background: hsl(18, 42%, 36%);
 }
 
@@ -667,7 +667,7 @@ option {
   color: var(--text-primary);
 }
 
-.btn-secondary:hover {
+.btn-secondary:not(:disabled):hover {
   background: rgba(185, 99, 71, 0.08);
   border-color: rgba(185, 99, 71, 0.2);
 }
@@ -678,11 +678,6 @@ option {
   cursor: not-allowed;
   filter: grayscale(0.3);
   box-shadow: none;
-}
-
-.btn-primary:disabled:hover,
-.btn-secondary:disabled:hover {
-  background: var(--accent-green);
 }
 
 /* Preview Simulator Cards */
