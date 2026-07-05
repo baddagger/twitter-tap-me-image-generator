@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Twitter Tap Me Image Generator</title>
+        <meta
+            name="description"
+            content="Generate click-to-reveal double-layer images (phantom tanks) for Twitter/X using Nearest-Neighbor downsampling simulation. Supports custom aspect ratios and tetromino masking."
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Noto+Serif+SC:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="./src/style.css" />
+    </head>
+    <body>
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <div class="github-link-wrapper">
+                    <a
+                        href="https://github.com/baddagger/twitter-tap-me-image-generator"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="github-btn"
+                        title="GitHub Repository"
+                    >
+                        <svg
+                            class="github-icon"
+                            viewBox="0 0 16 16"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                        >
+                            <path
+                                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                            />
+                        </svg>
+                        <span>GitHub</span>
+                    </a>
+                </div>
+                <div class="language-selector-wrapper">
+                    <select id="select-lang" class="lang-select">
+                        <option value="zh">中文</option>
+                        <option value="en">English</option>
+                        <option value="ja">日本語</option>
+                        <option value="ko">한국어</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="app-container">
+            <header class="app-header">
+                <div class="header-top-row">
+                    <div class="logo-area">
+                        <span class="logo-decorator"></span>
+                        <h1 class="personalized-title">
+                            <span class="title-brand">Twitter</span>
+                            <span class="title-action">Tap Me</span>
+                            <span class="title-suffix">Image Generator</span>
+                        </h1>
+                    </div>
+                </div>
+                <p class="subtitle" data-i18n="subtitle">
+                    Twitter Click-to-Reveal Double-Layer Image Generator
+                </p>
+            </header>
+
+            <main class="app-main">
+                <!-- Row 1: Inputs and Configurations -->
+                <div class="main-top-row">
+                    <!-- Card 1: Configure Input Images -->
+                    <div class="glass-card">
+                        <h2 class="card-title" data-i18n="card1-title">
+                            1. Configure Input Images
+                        </h2>
+
+                        <!-- Cover Image Upload -->
+                        <div class="form-group">
+                            <label class="group-label">
+                                <span data-i18n="label-thumb"
+                                    >Cover Image (Visible on timeline thumbnail)</span
+                                >
+                            </label>
+
+                            <!-- Image Upload -->
+                            <div class="upload-box" id="thumb-upload-box">
+                                <input
+                                    type="file"
+                                    id="thumb-file-input"
+                                    accept="image/*"
+                                    class="file-input"
+                                />
+                                <div class="upload-placeholder">
+                                    <div class="upload-indicator-line"></div>
+                                    <p
+                                        class="upload-text"
+                                        data-i18n="upload-thumb-text"
+                                    >
+                                        Click or drag to upload cover image
+                                    </p>
+                                    <p
+                                        class="upload-hint"
+                                        data-i18n="upload-thumb-hint"
+                                    >
+                                        Recommended 1:1 ratio, simple color image
+                                    </p>
+                                </div>
+                                <div
+                                    class="upload-preview hidden"
+                                    id="thumb-image-preview"
+                                >
+                                    <img src="" alt="Cover Image Preview" />
+                                    <button
+                                        type="button"
+                                        class="remove-btn"
+                                        id="btn-remove-thumb"
+                                    >
+                                        ✕
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="divider" />
+
+                        <!-- Hidden Image Upload -->
+                        <div class="form-group">
+                            <label class="group-label">
+                                <span data-i18n="label-full"
+                                    >Hidden Image (Visible when expanded or tapped)</span
+                                >
+                            </label>
+                            <div class="upload-box" id="full-upload-box">
+                                <input
+                                    type="file"
+                                    id="full-file-input"
+                                    accept="image/*"
+                                    class="file-input"
+                                />
+                                <div class="upload-placeholder">
+                                    <div class="upload-indicator-line"></div>
+                                    <p
+                                        class="upload-text"
+                                        data-i18n="upload-full-text"
+                                    >
+                                        Click or drag to upload hidden image
+                                    </p>
+                                    <p
+                                        class="upload-hint"
+                                        data-i18n="upload-full-hint"
+                                    >
+                                        Recommended same 1:1 ratio as cover image
+                                    </p>
+                                </div>
+                                <div
+                                    class="upload-preview hidden"
+                                    id="full-image-preview"
+                                >
+                                    <img src="" alt="Hidden Image Preview" />
+                                    <button
+                                        type="button"
+                                        class="remove-btn"
+                                        id="btn-remove-full"
+                                    >
+                                        ✕
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Generation Settings -->
+                    <div class="glass-card">
+                        <h2 class="card-title" data-i18n="card2-title">
+                            2. Generation Settings
+                        </h2>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label data-i18n="label-aspect">Image Ratio</label>
+                                <div
+                                    class="ratio-chips"
+                                    id="aspect-ratio-chips"
+                                >
+                                    <button
+                                        type="button"
+                                        class="chip-btn active"
+                                        data-value="1:1"
+                                    >
+                                        1:1
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="chip-btn"
+                                        data-value="16:9"
+                                    >
+                                        16:9
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="chip-btn"
+                                        data-value="9:16"
+                                    >
+                                        9:16
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="chip-btn"
+                                        data-value="4:3"
+                                    >
+                                        4:3
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="chip-btn"
+                                        data-value="3:4"
+                                    >
+                                        3:4
+                                    </button>
+                                </div>
+                                <p class="field-desc" data-i18n="desc-aspect">
+                                    Set the aspect ratio of the output image. Different ratios will be cropped accordingly.
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label
+                                    for="select-pattern"
+                                    data-i18n="label-pattern"
+                                    >Interlocking Pattern</label
+                                >
+                                <select id="select-pattern">
+                                    <option
+                                        value="tetromino"
+                                        data-i18n="option-tetromino"
+                                        selected
+                                    >
+                                        4x4 T-Tetromino (Anti-moire, Recommended)
+                                    </option>
+                                    <option
+                                        value="checkerboard"
+                                        data-i18n="option-checkerboard"
+                                    >
+                                        2x2 Checkerboard (Classic Checkerboard)
+                                    </option>
+                                </select>
+                                <p class="field-desc" data-i18n="desc-pattern">
+                                    T-Tetromino tiling provides organic patterns, greatly reducing moiré artifacts when scaled.
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label
+                                    for="select-resolution"
+                                    data-i18n="label-resolution"
+                                    >Target Resolution</label
+                                >
+                                <select id="select-resolution">
+                                    <!-- Dynamically populated by JS based on ratio -->
+                                </select>
+                                <p
+                                    class="field-desc"
+                                    data-i18n="desc-resolution"
+                                >
+                                    Resolution must be large enough to trigger Twitter timeline Nearest Neighbor downsampling.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="action-area">
+                            <button
+                                type="button"
+                                class="btn-primary"
+                                id="btn-generate"
+                            >
+                                <span class="btn-text" data-i18n="btn-generate"
+                                    >Generate Tap Me Image</span
+                                >
+                            </button>
+                            <button
+                                type="button"
+                                class="btn-secondary hidden"
+                                id="btn-download"
+                            >
+                                <span class="btn-text" data-i18n="btn-download"
+                                    >Download Lossless PNG</span
+                                >
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Simulator Previews -->
+                <div class="main-bottom-row">
+                    <div class="glass-card preview-card">
+                        <div class="preview-header">
+                            <h2 class="card-title" data-i18n="card3-title">
+                                3. Twitter Render Simulator
+                            </h2>
+                        </div>
+
+                        <div class="simulator-layout">
+                            <!-- Timeline Preview -->
+                            <div class="sim-box">
+                                <div class="sim-title">
+                                    <span data-i18n="timeline-title"
+                                        >Mobile Timeline Preview</span
+                                    >
+                                    <span
+                                        class="sim-hint"
+                                        data-i18n="timeline-hint"
+                                        >Downsampled 2x2 pixels to 1 pixel (Offset 0,1)</span
+                                    >
+                                </div>
+                                <div class="sim-frame" id="sim-frame-thumb">
+                                    <div class="image-container-wrapper">
+                                        <canvas id="canvas-sim-thumb"></canvas>
+                                    </div>
+                                </div>
+                                <p
+                                    class="sim-footer-desc"
+                                    data-i18n="timeline-desc"
+                                >
+                                    When browsing on the timeline, the algorithm only selects cover pixels; the hidden image is completely concealed.
+                                </p>
+                            </div>
+
+                            <!-- Expanded Preview -->
+                            <div class="sim-box">
+                                <div class="sim-title">
+                                    <span data-i18n="click-title"
+                                        >Click to Expand Preview</span
+                                    >
+                                    <span
+                                        class="sim-hint"
+                                        data-i18n="click-hint"
+                                        >Downsampled 2x2 pixels to 1 pixel (Offset 1,1)</span
+                                    >
+                                </div>
+                                <div class="sim-frame" id="sim-frame-full">
+                                    <div class="image-container-wrapper">
+                                        <canvas id="canvas-sim-full"></canvas>
+                                    </div>
+                                </div>
+                                <p
+                                    class="sim-footer-desc"
+                                    data-i18n="click-desc"
+                                >
+                                    When expanded, the sampling offset shifts, revealing the full hidden image content.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 1:1 Pixels Micro-Preview -->
+                        <div class="original-inspect">
+                            <div
+                                class="inspect-title"
+                                data-i18n="inspect-title"
+                            >
+                                1:1 Output Pixels Micro-Preview
+                            </div>
+                            <div class="inspect-container">
+                                <div class="inspect-view">
+                                    <canvas
+                                        id="canvas-sim-inspect"
+                                        width="200"
+                                        height="200"
+                                    ></canvas>
+                                    <div
+                                        class="inspect-overlay"
+                                        data-i18n="inspect-overlay"
+                                    >
+                                        Pixel-Level Zoom
+                                    </div>
+                                </div>
+                                <div class="inspect-info">
+                                    <p>
+                                        <strong data-i18n="status-label"
+                                            >Status:</strong
+                                        >
+                                        <span
+                                            id="status-text"
+                                            class="status-idle"
+                                            data-i18n="status-idle"
+                                            >Waiting for inputs...</span
+                                        >
+                                    </p>
+                                    <p
+                                        class="inspect-hint"
+                                        data-i18n="inspect-hint"
+                                    >
+                                        The generated image contains a high-frequency grid. Zoom in to see the interlocking tetrominoes.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Hidden HD canvases for actual generation -->
+        <canvas id="canvas-source-thumb" style="display: none"></canvas>
+        <canvas id="canvas-source-full" style="display: none"></canvas>
+        <canvas id="canvas-output" style="display: none"></canvas>
+
+        <script type="module" src="./src/main.ts"></script>
+    </body>
+</html>
