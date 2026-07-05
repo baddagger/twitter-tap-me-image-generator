@@ -267,7 +267,6 @@ const statusText = document.getElementById('status-text') as HTMLSpanElement;
 // Simulator Canvases
 const canvasSimThumb = document.getElementById('canvas-sim-thumb') as HTMLCanvasElement;
 const canvasSimFull = document.getElementById('canvas-sim-full') as HTMLCanvasElement;
-const canvasSimInspect = document.getElementById('canvas-sim-inspect') as HTMLCanvasElement;
 
 // Background frames (for dynamic aspect ratio sizing)
 const simFrames = document.querySelectorAll('.sim-frame') as NodeListOf<HTMLDivElement>;
@@ -845,22 +844,7 @@ function simulatePreviews(outputData: ImageData, width: number, height: number) 
   ctxThumb.putImageData(thumbImgData, 0, 0);
   ctxFull.putImageData(fullImgData, 0, 0);
 
-  // Zoom Inspect Simulator (Takes a 16x16 slice from center of original output and scales up)
-  const inspectSize = 200;
-  canvasSimInspect.width = inspectSize;
-  canvasSimInspect.height = inspectSize;
-  const ctxInspect = canvasSimInspect.getContext('2d')!;
-  ctxInspect.imageSmoothingEnabled = false;
 
-  const inspectSliceSize = 16;
-  const sx = (width / 2) - (inspectSliceSize / 2);
-  const sy = (height / 2) - (inspectSliceSize / 2);
-
-  ctxInspect.drawImage(
-    canvasOutput,
-    sx, sy, inspectSliceSize, inspectSliceSize,
-    0, 0, inspectSize, inspectSize
-  );
 }
 
 // Download the already-compressed PNG stored in state

@@ -768,67 +768,7 @@ option {
   text-align: center;
 }
 
-/* Original Zoom Inspector */
-.original-inspect {
-  border-top: 1px solid var(--card-border);
-  padding-top: 16px;
-  margin-top: 8px;
-}
 
-.inspect-title {
-  font-family: var(--font-serif);
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 10px;
-}
-
-.inspect-container {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  background: rgba(185, 99, 71, 0.01);
-  border: 1px solid rgba(185, 99, 71, 0.08);
-  padding: 10px;
-  border-radius: var(--radius-md);
-}
-
-.inspect-view {
-  width: 100px;
-  height: 100px;
-  border-radius: var(--radius-sm);
-  position: relative;
-  overflow: hidden;
-  background: var(--bg-secondary);
-  border: 1px solid rgba(185, 99, 71, 0.1);
-  flex-shrink: 0;
-}
-
-.inspect-view canvas {
-  width: 100%;
-  height: 100%;
-  image-rendering: pixelated;
-}
-
-.inspect-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.85);
-  color: var(--text-primary);
-  font-size: 0.65rem;
-  text-align: center;
-  padding: 2px 0;
-  backdrop-filter: blur(2px);
-  border-top: 1px solid rgba(185, 99, 71, 0.08);
-}
-
-.inspect-info {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
 
 .status-idle {
   color: var(--text-muted);
@@ -847,11 +787,7 @@ option {
   color: hsl(0, 50%, 45%);
 }
 
-.inspect-hint {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  line-height: 1.4;
-}
+
 
 /* Info Section */
 .info-card h3 {
