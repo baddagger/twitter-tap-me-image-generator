@@ -30,7 +30,8 @@ const translations = {
   zh: {
     "subtitle": "推特新版“点开变图”双层图生成器",
     "card1-title": "1. 配置输入图像",
-    "label-thumb": "表图 (时间线缩略图看到的画面)",
+    "card1-desc": "💡 表图（封面）是里图（大图）的一部分且位置对应时拥有最佳分离效果。",
+    "label-thumb": "表图 (在推特时间线预览时显示的图片)",
     "upload-thumb-text": "点击或拖拽上传表图",
     "upload-thumb-hint": "建议使用比例 1:1，色彩较简单的图",
     "label-full": "里图 (点击展开后看到的完整画面)",
@@ -46,9 +47,10 @@ const translations = {
     "label-resolution": "目标分辨率",
     "desc-resolution": "分辨率需足够大以触发推特 timeline 强行 Nearest-Neighbor 降采样机制。",
     "label-compression": "PNG 压缩方式",
-    "option-lossless": "无损 (最高质量)",
-    "option-q256": "256 色 (文件更小)",
-    "option-q64": "64 色 (文件最小)",
+    "option-lossless": "无损 (最高画质)",
+    "option-q256": "256 色 (体积较小 / 推荐)",
+    "option-q128": "128 色 (体积更小)",
+    "option-q64": "64 色 (体积最小)",
     "desc-compression": "无损模式保留全部画质。量化色彩选项能显著缩小文件，色彩精度会降低，但点开变图效果依然有效。",
     "btn-generate": "生成 Tap Me 图片",
     "btn-download": "下载 PNG",
@@ -71,11 +73,16 @@ const translations = {
     "error-text": "错误: ",
     "inspect-hint": "生成的图片包含高频像素网络。放大后可看见交错分布的凸字形像素。",
     "label-force-transparent": "强制左上角首个像素半透明 (90% Alpha)",
-    "desc-force-transparent": "将左上角首个像素 (1x1) 设为 90% 不透明度的半透明。这可以欺骗推特 (Twitter) 强制保留无损 PNG 格式，防止其被优化转换为 JPEG 导致双层图失效。"
+    "desc-force-transparent": "将左上角首个像素 (1x1) 设为 90% 不透明度的半透明。这可以欺骗推特 (Twitter) 强制保留无损 PNG 格式，防止其被优化转换为 JPEG 导致双层图失效。",
+    "warning-size": "⚠️ 警告：文件大小超过 1.46 MB，上传推特可能会被强行压缩为 JPEG 导致双层图失效！建议在“PNG 压缩方式”中选择 256 色，或调小目标分辨率。",
+    "suffix-recommend": " (2x 缩放, 推荐)",
+    "suffix-hd": " (3x 缩放, 高清)",
+    "suffix-4x": " (4x 缩放)"
   },
   en: {
     "subtitle": "Twitter Click-to-Reveal Double-Layer Image Generator",
     "card1-title": "1. Configure Input Images",
+    "card1-desc": "💡 Best effect is achieved when the cover image is a part of the hidden image and their positions align perfectly.",
     "label-thumb": "Cover Image (Visible on timeline thumbnail)",
     "upload-thumb-text": "Click or drag to upload cover image",
     "upload-thumb-hint": "Recommended 1:1 ratio, simple color image",
@@ -93,8 +100,9 @@ const translations = {
     "desc-resolution": "Resolution must be large enough to trigger Twitter timeline Nearest Neighbor downsampling.",
     "label-compression": "PNG Compression",
     "option-lossless": "Lossless (Max Quality)",
-    "option-q256": "256 Colors (Smaller File)",
-    "option-q64": "64 Colors (Smallest File)",
+    "option-q256": "256 Colors (Smaller / Recommended)",
+    "option-q128": "128 Colors (Even Smaller)",
+    "option-q64": "64 Colors (Smallest)",
     "desc-compression": "Lossless keeps full quality. Color-quantized options produce smaller files with reduced color fidelity; the tap-me effect still works.",
     "btn-generate": "Generate Tap Me Image",
     "btn-download": "Download PNG",
@@ -117,11 +125,16 @@ const translations = {
     "error-text": "Error: ",
     "inspect-hint": "The generated image contains a high-frequency grid. Zoom in to see the interlocking tetrominoes.",
     "label-force-transparent": "Force top-left pixel semi-transparent (90% Alpha)",
-    "desc-force-transparent": "Forces the top-left pixel (1x1) to be semi-transparent (90% alpha). This forces Twitter to keep the lossless PNG format and prevents conversion to JPEG."
+    "desc-force-transparent": "Forces the top-left pixel (1x1) to be semi-transparent (90% alpha). This forces Twitter to keep the lossless PNG format and prevents conversion to JPEG.",
+    "warning-size": "⚠️ Warning: File size exceeds 1.46 MB. Uploading to Twitter/X may trigger force-compression to JPEG, breaking the effect! Recommend selecting 256 Colors or lowering target resolution.",
+    "suffix-recommend": " (2x scale, Recommended)",
+    "suffix-hd": " (3x scale, HD)",
+    "suffix-4x": " (4x scale)"
   },
   ja: {
     "subtitle": "Twitter新版「クリックで画像変化」ダブルレイヤー画像作成器",
     "card1-title": "1. 入力画像の設定",
+    "card1-desc": "💡 表画像が裏画像の一部であり、位置が完全に一致している場合に最高の効果が得られます。",
     "label-thumb": "表画像 (タイムラインのサムネイルで表示される画像)",
     "upload-thumb-text": "クリックまたはドラッグで表画像をアップロード",
     "upload-thumb-hint": "アスペクト比 1:1、シンプルな配色の画像を推奨",
@@ -139,8 +152,9 @@ const translations = {
     "desc-resolution": "解像度はTwitter의 타임라인でNearest Neighborダウンサンプリングをトリガーするのに十分な大きさである必要があります。",
     "label-compression": "PNG 圧縮方式",
     "option-lossless": "ロスレス (最高品質)",
-    "option-q256": "256色 (ファイルが小さくなる)",
-    "option-q64": "64色 (最小ファイル)",
+    "option-q256": "256色 (小サイズ / 推奨)",
+    "option-q128": "128色 (さらに小さい)",
+    "option-q64": "64色 (最小サイズ)",
     "desc-compression": "ロスレスは画質をそのまま保持します。色数を減らすオプションはファイルサイズを大幅に削減しますが、色の精度が低下します。Tap Me 効果自体は問題なく機能します。",
     "btn-generate": "Tap Me 画像を生成",
     "btn-download": "PNG をダウンロード",
@@ -163,11 +177,16 @@ const translations = {
     "error-text": "エラー: ",
     "inspect-hint": "生成された画像には高周波ピクセルグリッドが含まれています。拡大するとインターロックされたTテトロミノピクセルが確認できます。",
     "label-force-transparent": "左上の最初の1ピクセルを強制的に半透明にする (90% Alpha)",
-    "desc-force-transparent": "左上の最初の1ピクセル (1x1) を強制的に半透明 (90%の不透明度) に設定します。これにより、TwitterがロスレスPNG形式を維持し、JPEGへの変換を防ぎます。"
+    "desc-force-transparent": "左上の最初の1ピクセル (1x1) を強制的に半透明 (90%の不透明度) に設定します。これにより、TwitterがロスレスPNG形式を維持し、JPEGへの変換を防ぎます。",
+    "warning-size": "⚠️ 警告：ファイルサイズが 1.46 MB を超えています。TwitterにアップロードするとJPEGに強制変換され、効果が失われる可能性があります！256色圧縮を選択するか、解像度を下げてください。",
+    "suffix-recommend": " (2xスケール, 推奨)",
+    "suffix-hd": " (3xスケール, 高画質)",
+    "suffix-4x": " (4xスケール)"
   },
   ko: {
     "subtitle": "트위터 신버전 \"클릭하면 바뀌는 이미지\" 더블 레이어 이미지 생성기",
     "card1-title": "1. 입력 이미지 설정",
+    "card1-desc": "💡 겉 이미지가 속 이미지의 일부이고 위치가 일치할 때 가장 완벽한 효과를 낼 수 있습니다.",
     "label-thumb": "겉 이미지 (타임라인 썸네일에서 보이는 이미지)",
     "upload-thumb-text": "클릭 또는 드래그하여 겉 이미지 업로드",
     "upload-thumb-hint": "1:1 비율 및 색상이 단순한 이미지 권장",
@@ -185,7 +204,8 @@ const translations = {
     "desc-resolution": "트위터 타임라인에서 Nearest Neighbor 다운샘플링 메커니즘을 유도하기 위해 해상도가 충분히 커야 합니다.",
     "label-compression": "PNG 압축 방식",
     "option-lossless": "무손실 (최고 품질)",
-    "option-q256": "256색 (파일 크기 축소)",
+    "option-q256": "256색 (작은 크기 / 권장)",
+    "option-q128": "128색 (더 작은 크기)",
     "option-q64": "64색 (최소 파일 크기)",
     "desc-compression": "무손실 모드는 원본 품질을 그대로 유지합니다. 색상 양자화 옵션은 파일 크기를 크게 줄이지만 색상 정확도가 낮아집니다. 탭미 효과는 여전히 정상 작동합니다.",
     "btn-generate": "Tap Me 이미지 생성",
@@ -209,7 +229,11 @@ const translations = {
     "error-text": "오류: ",
     "inspect-hint": "생성된 이미지에는 고주파 픽셀 그리드가 포함되어 있습니다. 확대하면 교차 배열된 T-태트로미노 픽셀을 볼 수 있습니다.",
     "label-force-transparent": "왼쪽 상단 첫 픽셀을 강제로 반투명하게 설정 (90% Alpha)",
-    "desc-force-transparent": "왼쪽 상단의 첫 픽셀 (1x1)을 강제로 반투명(90% 불투명도)으로 만듭니다. 이렇게 하면 트위터가 무손실 PNG 형식을 강제로 유지하여 JPEG로 변환되는 것을 방지합니다."
+    "desc-force-transparent": "왼쪽 상단의 첫 픽셀 (1x1)을 강제로 반투명(90% 불투명도)으로 만듭니다. 이렇게 하면 트위터가 무손실 PNG 형식을 강제로 유지하여 JPEG로 변환되는 것을 방지합니다.",
+    "warning-size": "⚠️ 경고: 파일 크기가 1.46 MB를 초과했습니다. 트위터에 업로드할 때 JPEG로 강제 압축되어 효과가 손상될 수 있습니다! 256색 압축을 선택하거나 해상도를 낮추는 것을 권장합니다.",
+    "suffix-recommend": " (2x 배율, 권장)",
+    "suffix-hd": " (3x 배율, 고화질)",
+    "suffix-4x": " (4x 배율)"
   }
 };
 
@@ -224,7 +248,6 @@ const fullFileInput = document.getElementById('full-file-input') as HTMLInputEle
 const fullImagePreview = document.getElementById('full-image-preview') as HTMLDivElement;
 const btnRemoveFull = document.getElementById('btn-remove-full') as HTMLButtonElement;
 
-const selectPattern = document.getElementById('select-pattern') as HTMLSelectElement;
 const selectResolution = document.getElementById('select-resolution') as HTMLSelectElement;
 const selectLang = document.getElementById('select-lang') as HTMLSelectElement;
 const chkForceTransparent = document.getElementById('chk-force-transparent') as HTMLInputElement;
@@ -294,15 +317,18 @@ function applyTranslations(lang: 'zh' | 'en' | 'ja' | 'ko') {
     }
   });
 
-  // Keep dynamic status text updated
+  // Keep dynamic status text and resolution dropdowns updated
   updateStatusDisplay();
+  updateResolutionOptions();
 }
 
 function updateStatusDisplay() {
   if (statusText.classList.contains('status-idle')) {
     statusText.textContent = translations[state.currentLang]['status-idle'];
+    statusText.parentElement?.querySelector('.size-warning')?.remove();
   } else if (statusText.classList.contains('status-processing')) {
     statusText.textContent = translations[state.currentLang]['status-processing'];
+    statusText.parentElement?.querySelector('.size-warning')?.remove();
   } else if (statusText.classList.contains('status-success')) {
     const prevText = statusText.textContent || '';
     if (prevText.includes('MB)')) {
@@ -312,46 +338,50 @@ function updateStatusDisplay() {
     }
   } else if (statusText.classList.contains('status-error')) {
     statusText.textContent = translations[state.currentLang]['error-text'] + (statusText.dataset.error || '');
+    statusText.parentElement?.querySelector('.size-warning')?.remove();
   }
 }
 
 // Dynamically populate resolution select options based on aspect ratio
 function updateResolutionOptions() {
   const activeRatioChip = document.querySelector('#aspect-ratio-chips .chip-btn.active') as HTMLButtonElement;
-  const aspect = activeRatioChip ? activeRatioChip.dataset.value : '1:1';
+  const aspect = activeRatioChip ? activeRatioChip.dataset.value : '2:3';
 
   let ratioW = 1;
   let ratioH = 1;
-  if (aspect === '16:9') { ratioW = 16; ratioH = 9; }
-  else if (aspect === '4:3') { ratioW = 4; ratioH = 3; }
-  else if (aspect === '3:4') { ratioW = 3; ratioH = 4; }
-  else if (aspect === '9:16') { ratioW = 9; ratioH = 16; }
+  const parts = aspect ? aspect.split(':') : [];
+  if (parts.length === 2) {
+    ratioW = parseInt(parts[0] || '1', 10);
+    ratioH = parseInt(parts[1] || '1', 10);
+  }
 
-  const currentSelectedValue = selectResolution.value || '2400';
+  const currentSelectedValue = selectResolution.value || '1400';
   selectResolution.innerHTML = '';
 
-  const baseSizes = [2048, 2400, 3072, 4096];
-  baseSizes.forEach(size => {
-    let w = size;
-    let h = size;
-
-    if (ratioW > ratioH) {
-      h = Math.round(size * (ratioH / ratioW));
-    } else if (ratioH > ratioW) {
-      w = Math.round(size * (ratioW / ratioH));
-    }
+  const dict = translations[state.currentLang];
+  // baseWidths are multiples of 700/704 pixels to fit the timeline container perfectly
+  const baseWidths = [1400, 2112, 2800];
+  baseWidths.forEach(wSize => {
+    let w = wSize;
+    let h = Math.round(wSize * (ratioH / ratioW));
 
     // Nearest Neighbor grid alignment requires multiples of 2
     w = Math.floor(w / 2) * 2;
     h = Math.floor(h / 2) * 2;
 
     const option = document.createElement('option');
-    option.value = size.toString();
-    option.textContent = `${w} x ${h}`;
+    option.value = w.toString();
+    
+    let labelSuffix = '';
+    if (wSize === 1400) labelSuffix = dict['suffix-recommend'] || '';
+    else if (wSize === 2112) labelSuffix = dict['suffix-hd'] || '';
+    else if (wSize === 2800) labelSuffix = dict['suffix-4x'] || '';
+    
+    option.textContent = `${w} x ${h}${labelSuffix}`;
 
-    if (size.toString() === currentSelectedValue) {
+    if (w.toString() === currentSelectedValue) {
       option.selected = true;
-    } else if (!currentSelectedValue && size === 2400) {
+    } else if (!currentSelectedValue && wSize === 1400) {
       option.selected = true;
     }
 
@@ -391,6 +421,7 @@ function setupEventListeners() {
     state.thumbImage = null;
     thumbImagePreview.classList.add('hidden');
     thumbFileInput.value = '';
+    statusText.parentElement?.querySelector('.size-warning')?.remove();
   });
 
   btnRemoveFull.addEventListener('click', (e: MouseEvent) => {
@@ -398,6 +429,7 @@ function setupEventListeners() {
     state.fullImage = null;
     fullImagePreview.classList.add('hidden');
     fullFileInput.value = '';
+    statusText.parentElement?.querySelector('.size-warning')?.remove();
   });
 
   // Ratio Chips
@@ -523,28 +555,28 @@ async function generateTapMeImage() {
   statusText.className = 'status-processing';
   setButtonsDisabled(true);
 
-  try {
-    const targetSize = parseInt(selectResolution.value, 10);
-    const pattern = selectPattern.value;
-    const activeRatioChip = document.querySelector('#aspect-ratio-chips .chip-btn.active') as HTMLButtonElement;
-    const aspect = activeRatioChip ? activeRatioChip.dataset.value : '1:1';
+  // Remove old size warning
+  const oldWarning = statusText.parentElement?.querySelector('.size-warning');
+  if (oldWarning) oldWarning.remove();
 
-    // Parse aspect ratios
+  try {
+    const targetWidthInput = parseInt(selectResolution.value, 10);
+    const pattern = 'checkerboard';
+    const activeRatioChip = document.querySelector('#aspect-ratio-chips .chip-btn.active') as HTMLButtonElement;
+    const aspect = activeRatioChip ? activeRatioChip.dataset.value : '2:3';
+
+    // Parse aspect ratios dynamically
     let ratioW = 1;
     let ratioH = 1;
-    if (aspect === '16:9') { ratioW = 16; ratioH = 9; }
-    else if (aspect === '4:3') { ratioW = 4; ratioH = 3; }
-    else if (aspect === '3:4') { ratioW = 3; ratioH = 4; }
-    else if (aspect === '9:16') { ratioW = 9; ratioH = 16; }
-
-    // Calculate dimensions based on longest edge
-    let targetWidth = targetSize;
-    let targetHeight = targetSize;
-    if (ratioW > ratioH) {
-      targetHeight = Math.round(targetSize * (ratioH / ratioW));
-    } else if (ratioH > ratioW) {
-      targetWidth = Math.round(targetSize * (ratioW / ratioH));
+    const parts = aspect ? aspect.split(':') : [];
+    if (parts.length === 2) {
+      ratioW = parseInt(parts[0] || '1', 10);
+      ratioH = parseInt(parts[1] || '1', 10);
     }
+
+    // Fixed width based, calculate height
+    let targetWidth = targetWidthInput;
+    let targetHeight = Math.round(targetWidth * (ratioH / ratioW));
 
     // Force dimensions to be multiples of 2 for Nearest Neighbor grid safety
     targetWidth = Math.floor(targetWidth / 2) * 2;
@@ -598,6 +630,25 @@ async function generateTapMeImage() {
 
         statusText.textContent = dict['status-success'] + sizeMsg;
         statusText.className = 'status-success';
+
+        // Check file size warning
+        if (state.compressedOutput.length > 1.46 * 1024 * 1024) {
+          const warningEl = document.createElement('div');
+          warningEl.className = 'size-warning';
+          warningEl.style.color = '#ff6b6b';
+          warningEl.style.marginTop = '8px';
+          warningEl.style.fontSize = '0.9rem';
+          warningEl.style.lineHeight = '1.4';
+          warningEl.style.fontWeight = '500';
+          warningEl.textContent = dict['warning-size'];
+          
+          const oldWarning = statusText.parentElement?.querySelector('.size-warning');
+          if (oldWarning) oldWarning.remove();
+          statusText.parentElement?.appendChild(warningEl);
+        } else {
+          const oldWarning = statusText.parentElement?.querySelector('.size-warning');
+          if (oldWarning) oldWarning.remove();
+        }
 
         state.isProcessing = false;
         setButtonsDisabled(false);

@@ -260,6 +260,17 @@ body {
   letter-spacing: -0.01em;
 }
 
+.card-desc {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  margin-top: -10px;
+  margin-bottom: 22px;
+}
+
 /* Input Fields & Forms */
 .form-group {
   margin-bottom: 20px;

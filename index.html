@@ -76,6 +76,9 @@
                         <h2 class="card-title" data-i18n="card1-title">
                             1. Configure Input Images
                         </h2>
+                        <p class="card-desc" data-i18n="card1-desc">
+                            Best effect is achieved when the cover image is a part of the hidden image and their positions align perfectly.
+                        </p>
 
                         <!-- Cover Image Upload -->
                         <div class="form-group">
@@ -188,30 +191,9 @@
                                     <button
                                         type="button"
                                         class="chip-btn active"
-                                        data-value="1:1"
+                                        data-value="2:3"
                                     >
-                                        1:1
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="chip-btn"
-                                        data-value="16:9"
-                                    >
-                                        16:9
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="chip-btn"
-                                        data-value="9:16"
-                                    >
-                                        9:16
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="chip-btn"
-                                        data-value="4:3"
-                                    >
-                                        4:3
+                                        2:3
                                     </button>
                                     <button
                                         type="button"
@@ -220,35 +202,16 @@
                                     >
                                         3:4
                                     </button>
+                                    <button
+                                        type="button"
+                                        class="chip-btn"
+                                        data-value="9:16"
+                                    >
+                                        9:16
+                                    </button>
                                 </div>
                                 <p class="field-desc" data-i18n="desc-aspect">
                                     Set the aspect ratio of the output image. Different ratios will be cropped accordingly.
-                                </p>
-                            </div>
-
-                            <div class="form-group">
-                                <label
-                                    for="select-pattern"
-                                    data-i18n="label-pattern"
-                                    >Interlocking Pattern</label
-                                >
-                                <select id="select-pattern">
-                                    <option
-                                        value="tetromino"
-                                        data-i18n="option-tetromino"
-                                        selected
-                                    >
-                                        4x4 T-Tetromino (Anti-moire, Recommended)
-                                    </option>
-                                    <option
-                                        value="checkerboard"
-                                        data-i18n="option-checkerboard"
-                                    >
-                                        2x2 Checkerboard (Classic Checkerboard)
-                                    </option>
-                                </select>
-                                <p class="field-desc" data-i18n="desc-pattern">
-                                    T-Tetromino tiling provides organic patterns, greatly reducing moiré artifacts when scaled.
                                 </p>
                             </div>
 
@@ -279,7 +242,7 @@
                                 >
                                     <button
                                         type="button"
-                                        class="chip-btn active"
+                                        class="chip-btn"
                                         data-value="0"
                                         data-i18n="option-lossless"
                                     >
@@ -287,11 +250,19 @@
                                     </button>
                                     <button
                                         type="button"
-                                        class="chip-btn"
+                                        class="chip-btn active"
                                         data-value="256"
                                         data-i18n="option-q256"
                                     >
-                                        256 Colors (Smaller File)
+                                        256 Colors (Smaller / Recommended)
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="chip-btn"
+                                        data-value="128"
+                                        data-i18n="option-q128"
+                                    >
+                                        128 Colors (Even Smaller)
                                     </button>
                                     <button
                                         type="button"
@@ -299,7 +270,7 @@
                                         data-value="64"
                                         data-i18n="option-q64"
                                     >
-                                        64 Colors (Smallest File)
+                                        64 Colors (Smallest)
                                     </button>
                                 </div>
                                 <p

@@ -18,6 +18,7 @@ ctx.onmessage = (e: MessageEvent) => {
       const taR = thumbPixels[idx] ?? 0;
       const taG = thumbPixels[idx + 1] ?? 0;
       const taB = thumbPixels[idx + 2] ?? 0;
+      const taA = thumbPixels[idx + 3] ?? 255;
 
       const faR = fullPixels[idx] ?? 0;
       const faG = fullPixels[idx + 1] ?? 0;
@@ -39,13 +40,13 @@ ctx.onmessage = (e: MessageEvent) => {
         outPixels[idx] = faR;
         outPixels[idx + 1] = faG;
         outPixels[idx + 2] = faB;
-        outPixels[idx + 3] = faA; // Opaque
+        outPixels[idx + 3] = faA;
       } else {
         // Set to Thumbnail Image (ImgA)
         outPixels[idx] = taR;
         outPixels[idx + 1] = taG;
         outPixels[idx + 2] = taB;
-        outPixels[idx + 3] = 255;
+        outPixels[idx + 3] = taA;
       }
     }
   }

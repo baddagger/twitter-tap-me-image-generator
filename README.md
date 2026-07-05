@@ -4,10 +4,26 @@ A browser-based tool to generate interactive "click-to-reveal" double-layer imag
 
 **[Try It Now](https://baddagger.github.io/twitter-tap-me-image-generator/)**
 
-## Principle
+---
 
-For the underlying downsampling mechanics and 4x4 T-Tetromino interlocking mask principles, refer to the detailed analysis in this [Zhihu Article](https://zhuanlan.zhihu.com/p/2035435716495328839).
+## Technical Principles (Based on Empirical Testing)
 
+To achieve the best chance of a successful "click-to-reveal" double-layer effect on X (Twitter), we recommend following these empirical guidelines. Note that behaviors vary depending on upload clients, network environments, and "High-quality uploads" settings in the app.
+
+### 1. Minimizing JPEG Conversion Risk
+* **File Size Threshold**: PNG images larger than **~1.46 MB** are highly susceptible to being compressed and converted to JPEG on X's servers. Keeping file sizes below **1.46 MB** (using the **256 colors** option is recommended) helps prevent this.
+* **Alpha Channel Protection**: X is more likely to convert fully opaque PNGs to JPEGs. The generator forces the top-left pixel (1x1) to be semi-transparent (90% alpha) to help prevent conversion.
+
+### 2. Aspect Ratio & Grid Alignment
+* **Vertical Formats Only**: Currently, **square (1:1) and landscape (horizontal) images are confirmed to fail the click-to-reveal effect in the expanded view**. Only vertical formats (such as **2:3**, **3:4**, or **9:16**) have been shown to work.
+* **Width Multiples**: X timeline displays vertical cards at ~700px wide. Using **1400px** (2x) or **2112px** (3x) width aligns best with the timeline downsampling grid.
+* **2x2 Checkerboard**: This pattern provides 2-phase redundancy (both odd-sum phases contain the cover, both even-sum phases contain the hidden image). It reduces the chance of blending if the client's downsampling offset shifts by 1 pixel.
+
+### 3. Content Contrast & Blending
+* **Watermarks / Logos**: If the logo is colored (e.g. pink), draw it in **both** the cover and hidden images in the same location to avoid transparent masking overlays.
+* **Click-to-Reveal Text**: Use **pure black** text on a transparent background. It forms a dark silhouette on the white timeline, and vanishes against the black background on expand.
+
+---
 
 ## Setup & Running
 
@@ -28,9 +44,3 @@ Build for production:
 bun run build
 # or npm run build
 ```
-
-## Tips for Uploading to X
-
-1. **Resolution**: Choose at least `2400 x 2400` or `3072 x 3072` (defaults) to trigger the downsampling resizer.
-2. **Format**: Save and upload strictly as a lossless PNG.
-3. **Data Saver**: Disable client-side image compression in the mobile app settings before uploading.
