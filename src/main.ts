@@ -69,7 +69,9 @@ const translations = {
     "alert-thumb": "请先上传表图！",
     "alert-full": "请先上传里图！",
     "error-text": "错误: ",
-    "inspect-hint": "生成的图片包含高频像素网络。放大后可看见交错分布的凸字形像素。"
+    "inspect-hint": "生成的图片包含高频像素网络。放大后可看见交错分布的凸字形像素。",
+    "label-force-transparent": "强制左上角首个像素透明",
+    "desc-force-transparent": "强制将左上角首个像素 (1x1) 设为透明。这可以诱使推特 (Twitter) 强制保留无损 PNG 格式，避免被压缩转换为 JPEG 而导致双层图失效。"
   },
   en: {
     "subtitle": "Twitter Click-to-Reveal Double-Layer Image Generator",
@@ -113,7 +115,9 @@ const translations = {
     "alert-thumb": "Please upload a cover image first!",
     "alert-full": "Please upload a hidden image first!",
     "error-text": "Error: ",
-    "inspect-hint": "The generated image contains a high-frequency grid. Zoom in to see the interlocking tetrominoes."
+    "inspect-hint": "The generated image contains a high-frequency grid. Zoom in to see the interlocking tetrominoes.",
+    "label-force-transparent": "Force top-left pixel transparent",
+    "desc-force-transparent": "Forces the top-left pixel (1x1) to be transparent. This forces Twitter to keep the lossless PNG format and prevents conversion to JPEG."
   },
   ja: {
     "subtitle": "Twitter新版「クリックで画像変化」ダブルレイヤー画像作成器",
@@ -157,7 +161,9 @@ const translations = {
     "alert-thumb": "先に表画像をアップロードしてください！",
     "alert-full": "先に裏画像をアップロードしてください！",
     "error-text": "エラー: ",
-    "inspect-hint": "生成された画像には高周波ピクセルグリッドが含まれています。拡大するとインターロックされたTテトロミノピクセルが確認できます。"
+    "inspect-hint": "生成された画像には高周波ピクセルグリッドが含まれています。拡大するとインターロックされたTテトロミノピクセルが確認できます。",
+    "label-force-transparent": "左上の最初の1ピクセルを強制的に透明にする",
+    "desc-force-transparent": "左上の最初の1ピクセル (1x1) を強制的に透明に設定します。これにより、TwitterがロスレスPNG形式を维持し、JPEGへの変換を防ぎます。"
   },
   ko: {
     "subtitle": "트위터 신버전 \"클릭하면 바뀌는 이미지\" 더블 레이어 이미지 생성기",
@@ -201,7 +207,9 @@ const translations = {
     "alert-thumb": "먼저 겉 이미지를 업로드해 주세요!",
     "alert-full": "먼저 속 이미지를 업로드해 주세요!",
     "error-text": "오류: ",
-    "inspect-hint": "생성된 이미지에는 고주파 픽셀 그리드가 포함되어 있습니다. 확대하면 교차 배열된 T-태트로미노 픽셀을 볼 수 있습니다."
+    "inspect-hint": "생성된 이미지에는 고주파 픽셀 그리드가 포함되어 있습니다. 확대하면 교차 배열된 T-태트로미노 픽셀을 볼 수 있습니다.",
+    "label-force-transparent": "왼쪽 상단 첫 픽셀을 강제로 투명하게 설정",
+    "desc-force-transparent": "왼쪽 상단의 첫 픽셀 (1x1)을 강제로 투명하게 만듭니다. 이렇게 하면 트위터가 무손실 PNG 형식을 강제로 유지하여 JPEG로 변환되는 것을 방지합니다."
   }
 };
 
@@ -219,6 +227,7 @@ const btnRemoveFull = document.getElementById('btn-remove-full') as HTMLButtonEl
 const selectPattern = document.getElementById('select-pattern') as HTMLSelectElement;
 const selectResolution = document.getElementById('select-resolution') as HTMLSelectElement;
 const selectLang = document.getElementById('select-lang') as HTMLSelectElement;
+const chkForceTransparent = document.getElementById('chk-force-transparent') as HTMLInputElement;
 
 const btnGenerate = document.getElementById('btn-generate') as HTMLButtonElement;
 const btnDownload = document.getElementById('btn-download') as HTMLButtonElement;
@@ -617,7 +626,8 @@ async function generateTapMeImage() {
       targetWidth,
       targetHeight,
       pattern,
-      cnum
+      cnum,
+      forceTransparent: chkForceTransparent.checked
     }, [thumbBuffer, fullBuffer]);
 
   } catch (err: any) {

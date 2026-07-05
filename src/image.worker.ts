@@ -3,7 +3,7 @@ import UPNG from 'upng-js';
 const ctx = self as any;
 
 ctx.onmessage = (e: MessageEvent) => {
-  const { thumbBuffer, fullBuffer, targetWidth, targetHeight, pattern, cnum } = e.data;
+  const { thumbBuffer, fullBuffer, targetWidth, targetHeight, pattern, cnum, forceTransparent } = e.data;
 
   const thumbPixels = new Uint8ClampedArray(thumbBuffer);
   const fullPixels = new Uint8ClampedArray(fullBuffer);
@@ -48,6 +48,14 @@ ctx.onmessage = (e: MessageEvent) => {
         outPixels[idx + 3] = 255;
       }
     }
+  }
+
+  // Force top-left 1x1 pixel to be transparent if enabled
+  if (forceTransparent && outPixels.length >= 4) {
+    outPixels[0] = 0; // R
+    outPixels[1] = 0; // G
+    outPixels[2] = 0; // B
+    outPixels[3] = 0; // A
   }
 
   // Notify main thread that we are starting compression
