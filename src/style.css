@@ -583,12 +583,27 @@ option {
   margin-top: 3px;
 }
 
+.status-line {
+  margin-top: 20px;
+  font-size: 0.8rem;
+}
+
+.status-line strong {
+  color: var(--text-secondary);
+  margin-right: 4px;
+}
+
+#status-text {
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
 /* Action Buttons */
 .action-area {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .btn-primary, .btn-secondary {
@@ -625,6 +640,19 @@ option {
 .btn-secondary:hover {
   background: rgba(185, 99, 71, 0.08);
   border-color: rgba(185, 99, 71, 0.2);
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.3);
+  box-shadow: none;
+}
+
+.btn-primary:disabled:hover,
+.btn-secondary:disabled:hover {
+  background: var(--accent-green);
 }
 
 /* Preview Simulator Cards */
@@ -775,16 +803,6 @@ option {
   display: flex;
   flex-direction: column;
   gap: 3px;
-}
-
-.inspect-info strong {
-  color: var(--text-secondary);
-  font-size: 0.8rem;
-}
-
-#status-text {
-  font-weight: 600;
-  font-size: 0.8rem;
 }
 
 .status-idle {

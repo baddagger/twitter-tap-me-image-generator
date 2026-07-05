@@ -5,6 +5,7 @@ interface State {
   fullImage: HTMLImageElement | null;
   isProcessing: boolean;
   currentLang: 'zh' | 'en' | 'ja' | 'ko';
+  compressedOutput: Uint8Array | null;
 }
 
 const state: State = {
@@ -12,7 +13,17 @@ const state: State = {
   fullImage: null,
   isProcessing: false,
   currentLang: 'zh',
+  compressedOutput: null,
 };
+
+let imageWorker: Worker | null = null;
+
+function getImageWorker(): Worker {
+  if (!imageWorker) {
+    imageWorker = new Worker(new URL('./image.worker.ts', import.meta.url), { type: 'module' });
+  }
+  return imageWorker;
+}
 
 // Translation dictionary
 const translations = {
@@ -34,8 +45,13 @@ const translations = {
     "desc-pattern": "T-Tetromino 能够以无规则感拼接，在缩小时能极大减少摩尔纹干扰。",
     "label-resolution": "目标分辨率",
     "desc-resolution": "分辨率需足够大以触发推特 timeline 强行 Nearest-Neighbor 降采样机制。",
+    "label-compression": "PNG 压缩方式",
+    "option-lossless": "无损 (最高质量)",
+    "option-q256": "256 色 (文件更小)",
+    "option-q64": "64 色 (文件最小)",
+    "desc-compression": "无损模式保留全部画质。量化色彩选项能显著缩小文件，色彩精度会降低，但点开变图效果依然有效。",
     "btn-generate": "生成 Tap Me 图片",
-    "btn-download": "下载无损 PNG",
+    "btn-download": "下载 PNG",
     "card3-title": "3. 推特渲染模拟器",
     "timeline-title": "移动端 Timeline 预览",
     "timeline-hint": "每2x2像素降采样为1个像素 (Offset 0,1)",
@@ -48,6 +64,7 @@ const translations = {
     "status-label": "状态:",
     "status-idle": "等待输入...",
     "status-processing": "图像处理中...",
+    "status-compressing": "正在压缩 PNG...",
     "status-success": "生成成功！",
     "alert-thumb": "请先上传表图！",
     "alert-full": "请先上传里图！",
@@ -72,8 +89,13 @@ const translations = {
     "desc-pattern": "T-Tetromino tiling provides organic patterns, greatly reducing moiré artifacts when scaled.",
     "label-resolution": "Target Resolution",
     "desc-resolution": "Resolution must be large enough to trigger Twitter timeline Nearest Neighbor downsampling.",
+    "label-compression": "PNG Compression",
+    "option-lossless": "Lossless (Max Quality)",
+    "option-q256": "256 Colors (Smaller File)",
+    "option-q64": "64 Colors (Smallest File)",
+    "desc-compression": "Lossless keeps full quality. Color-quantized options produce smaller files with reduced color fidelity; the tap-me effect still works.",
     "btn-generate": "Generate Tap Me Image",
-    "btn-download": "Download Lossless PNG",
+    "btn-download": "Download PNG",
     "card3-title": "3. Twitter Render Simulator",
     "timeline-title": "Mobile Timeline Preview",
     "timeline-hint": "Downsampled 2x2 pixels to 1 pixel (Offset 0,1)",
@@ -86,6 +108,7 @@ const translations = {
     "status-label": "Status:",
     "status-idle": "Waiting for inputs...",
     "status-processing": "Processing image...",
+    "status-compressing": "Compressing PNG...",
     "status-success": "Generated successfully!",
     "alert-thumb": "Please upload a cover image first!",
     "alert-full": "Please upload a hidden image first!",
@@ -110,8 +133,13 @@ const translations = {
     "desc-pattern": "T-Tetrominoは不規則感のあるタイリングにより、縮小時のモアレ干渉を大幅に低減します。",
     "label-resolution": "ターゲット解像度",
     "desc-resolution": "解像度はTwitter의 타임라인でNearest Neighborダウンサンプリングをトリガーするのに十分な大きさである必要があります。",
+    "label-compression": "PNG 圧縮方式",
+    "option-lossless": "ロスレス (最高品質)",
+    "option-q256": "256色 (ファイルが小さくなる)",
+    "option-q64": "64色 (最小ファイル)",
+    "desc-compression": "ロスレスは画質をそのまま保持します。色数を減らすオプションはファイルサイズを大幅に削減しますが、色の精度が低下します。Tap Me 効果自体は問題なく機能します。",
     "btn-generate": "Tap Me 画像を生成",
-    "btn-download": "ロスレス PNG をダウンロード",
+    "btn-download": "PNG をダウンロード",
     "card3-title": "3. Twitterレンダリングシミュレーター",
     "timeline-title": "モバイル版タイムラインのプレビュー",
     "timeline-hint": "2x2ピクセルを1ピクセルにダウンサンプリング (オフセット 0,1)",
@@ -124,6 +152,7 @@ const translations = {
     "status-label": "ステータス:",
     "status-idle": "入力待ち...",
     "status-processing": "画像処理中...",
+    "status-compressing": "PNG を圧縮中...",
     "status-success": "生成完了！",
     "alert-thumb": "先に表画像をアップロードしてください！",
     "alert-full": "先に裏画像をアップロードしてください！",
@@ -148,8 +177,13 @@ const translations = {
     "desc-pattern": "T-Tetromino는 불규칙하게 배열되어 축소 시 모아레 현상의 간섭을 크게 줄여줍니다.",
     "label-resolution": "대상 해상도",
     "desc-resolution": "트위터 타임라인에서 Nearest Neighbor 다운샘플링 메커니즘을 유도하기 위해 해상도가 충분히 커야 합니다.",
+    "label-compression": "PNG 압축 방식",
+    "option-lossless": "무손실 (최고 품질)",
+    "option-q256": "256색 (파일 크기 축소)",
+    "option-q64": "64색 (최소 파일 크기)",
+    "desc-compression": "무손실 모드는 원본 품질을 그대로 유지합니다. 색상 양자화 옵션은 파일 크기를 크게 줄이지만 색상 정확도가 낮아집니다. 탭미 효과는 여전히 정상 작동합니다.",
     "btn-generate": "Tap Me 이미지 생성",
-    "btn-download": "무손실 PNG 다운로드",
+    "btn-download": "PNG 다운로드",
     "card3-title": "3. 트위터 렌더링 시뮬레이터",
     "timeline-title": "모바일 타임라인 미리보기",
     "timeline-hint": "2x2 픽셀당 1픽셀로 다운샘플링 (오프셋 0,1)",
@@ -162,6 +196,7 @@ const translations = {
     "status-label": "상태:",
     "status-idle": "입력 대기 중...",
     "status-processing": "이미지 처리 중...",
+    "status-compressing": "PNG 압축 중...",
     "status-success": "생성 완료!",
     "alert-thumb": "먼저 겉 이미지를 업로드해 주세요!",
     "alert-full": "먼저 속 이미지를 업로드해 주세요!",
@@ -327,6 +362,12 @@ function updateSimulatorAspect() {
   });
 }
 
+// Read the currently selected PNG compression level from the active chip (0=lossless, 256, 64)
+function getCompressionCnum(): number {
+  const active = document.querySelector('#compression-chips .chip-btn.active') as HTMLButtonElement | null;
+  return active ? parseInt(active.dataset.value || '0', 10) : 0;
+}
+
 // Event Listeners
 function setupEventListeners() {
   // Upload Box drag & drop
@@ -358,6 +399,15 @@ function setupEventListeners() {
       btn.classList.add('active');
       updateResolutionOptions();
       updateSimulatorAspect();
+    });
+  });
+
+  // Compression Chips
+  const compressionChips = document.querySelectorAll('#compression-chips .chip-btn') as NodeListOf<HTMLButtonElement>;
+  compressionChips.forEach(btn => {
+    btn.addEventListener('click', () => {
+      compressionChips.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
     });
   });
 
@@ -462,11 +512,7 @@ async function generateTapMeImage() {
   state.isProcessing = true;
   statusText.textContent = dict['status-processing'];
   statusText.className = 'status-processing';
-  btnGenerate.disabled = true;
-  btnDownload.classList.add('hidden');
-
-  // Small delay to allow browser to draw UI
-  await new Promise(resolve => setTimeout(resolve, 50));
+  setButtonsDisabled(true);
 
   try {
     const targetSize = parseInt(selectResolution.value, 10);
@@ -510,81 +556,85 @@ async function generateTapMeImage() {
     const thumbData = ctxThumb.getImageData(0, 0, targetWidth, targetHeight);
     const fullData = ctxFull.getImageData(0, 0, targetWidth, targetHeight);
 
-    canvasOutput.width = targetWidth;
-    canvasOutput.height = targetHeight;
-    const ctxOutput = canvasOutput.getContext('2d')!;
-    const outputData = ctxOutput.createImageData(targetWidth, targetHeight);
+    // Slice buffers to ensure a clean Transferable ArrayBuffer copy (avoiding browser/canvas restrictions)
+    const thumbBuffer = thumbData.data.buffer.slice(0);
+    const fullBuffer = fullData.data.buffer.slice(0);
 
-    const thumbPixels = thumbData.data;
-    const fullPixels = fullData.data;
-    const outPixels = outputData.data;
+    const cnum = getCompressionCnum();
+    const worker = getImageWorker();
 
-    // Pixel processing loop
-    for (let y = 0; y < targetHeight; y++) {
-      for (let x = 0; x < targetWidth; x++) {
-        const idx = (y * targetWidth + x) * 4;
-
-        // Retrieve raw image pixels
-        const taR = thumbPixels[idx] ?? 0;
-        const taG = thumbPixels[idx + 1] ?? 0;
-        const taB = thumbPixels[idx + 2] ?? 0;
-
-        const faR = fullPixels[idx] ?? 0;
-        const faG = fullPixels[idx + 1] ?? 0;
-        const faB = fullPixels[idx + 2] ?? 0;
-        const faA = fullPixels[idx + 3] ?? 255;
-
-        let isT = false; // Is this a pixel for the Thumbnail Image?
-
-        if (pattern === 'tetromino') {
-          // 4x4 T-Tetromino mask formula
-          isT = (y % 2 === 0 && x % 4 === 0) || (y % 2 === 1 && x % 4 !== 2);
-        } else {
-          // 2x2 Checkerboard mask
-          isT = (x + y) % 2 === 0;
+    worker.onmessage = (e: MessageEvent) => {
+      const data = e.data;
+      if (data.type === 'status') {
+        if (data.status === 'compressing') {
+          statusText.textContent = dict['status-compressing'];
+          statusText.className = 'status-processing';
         }
+      } else if (data.type === 'done') {
+        const { outBuffer, compressed } = data;
 
-        if (isT) {
-          // Set to Full-View Image (ImgB)
-          outPixels[idx] = faR;
-          outPixels[idx + 1] = faG;
-          outPixels[idx + 2] = faB;
-          outPixels[idx + 3] = faA; // Opaque
-        } else {
-          // Set to Thumbnail Image (ImgA)
-          // Opaque Mode: Set to Thumbnail Image (ImgA)
-          outPixels[idx] = taR;
-          outPixels[idx + 1] = taG;
-          outPixels[idx + 2] = taB;
-          outPixels[idx + 3] = 255;
-        }
+        canvasOutput.width = targetWidth;
+        canvasOutput.height = targetHeight;
+        const ctxOutput = canvasOutput.getContext('2d')!;
+        const outputData = new ImageData(new Uint8ClampedArray(outBuffer), targetWidth, targetHeight);
+        ctxOutput.putImageData(outputData, 0, 0);
+
+        // Simulate Twitter Downsampling Previews
+        simulatePreviews(outputData, targetWidth, targetHeight);
+
+        state.compressedOutput = new Uint8Array(compressed);
+
+        const mbSize = (state.compressedOutput.length / (1024 * 1024)).toFixed(2);
+        const sizeMsg = ` (${mbSize} MB)`;
+
+        statusText.textContent = dict['status-success'] + sizeMsg;
+        statusText.className = 'status-success';
+
+        state.isProcessing = false;
+        setButtonsDisabled(false);
+      } else if (data.type === 'error') {
+        statusText.dataset.error = data.message;
+        statusText.className = 'status-error';
+        statusText.textContent = dict['error-text'] + data.message;
+        state.isProcessing = false;
+        setButtonsDisabled(false);
       }
-    }
+    };
 
-    ctxOutput.putImageData(outputData, 0, 0);
+    worker.onerror = (err) => {
+      console.error(err);
+      statusText.dataset.error = err.message;
+      statusText.className = 'status-error';
+      statusText.textContent = dict['error-text'] + err.message;
+      state.isProcessing = false;
+      setButtonsDisabled(false);
+    };
 
-    // Simulate Twitter Downsampling Previews
-    simulatePreviews(outputData, targetWidth, targetHeight);
-
-    // Calculate canvas base64 bytes size to report back
-    const dataUrl = canvasOutput.toDataURL('image/png');
-    const approxBytes = Math.round((dataUrl.length - 22) * 3 / 4);
-    const mbSize = (approxBytes / (1024 * 1024)).toFixed(2);
-    const sizeMsg = ` (${mbSize} MB)`;
-
-    statusText.textContent = dict['status-success'] + sizeMsg;
-    statusText.className = 'status-success';
-    btnDownload.classList.remove('hidden');
+    // Send arrays and transfer buffers to worker
+    worker.postMessage({
+      thumbBuffer,
+      fullBuffer,
+      targetWidth,
+      targetHeight,
+      pattern,
+      cnum
+    }, [thumbBuffer, fullBuffer]);
 
   } catch (err: any) {
     console.error(err);
     statusText.dataset.error = err.message;
     statusText.className = 'status-error';
     statusText.textContent = dict['error-text'] + err.message;
-  } finally {
     state.isProcessing = false;
-    btnGenerate.disabled = false;
+    setButtonsDisabled(false);
   }
+}
+
+// Toggle both action buttons' disabled state (keeps them visible while processing)
+function setButtonsDisabled(disabled: boolean) {
+  btnGenerate.disabled = disabled;
+  // Download button is only meaningful once an image has been generated
+  btnDownload.disabled = disabled || !canvasOutput.width || !canvasOutput.height;
 }
 
 // Utility to crop & draw images fitted to custom aspect ratio
@@ -707,15 +757,21 @@ function simulatePreviews(outputData: ImageData, width: number, height: number) 
   );
 }
 
-// Download output image
+// Download the already-compressed PNG stored in state
 function downloadOutputImage() {
+  if (state.isProcessing || !state.compressedOutput) return;
+
+  const blob = new Blob([state.compressedOutput.buffer as ArrayBuffer], { type: 'image/png' });
+  const url = URL.createObjectURL(blob);
+
   const link = document.createElement('a');
   const timestamp = new Date().toISOString().slice(0, 10).replace(/-/g, '');
   link.download = `tapme_${timestamp}.png`;
-  link.href = canvasOutput.toDataURL('image/png');
+  link.href = url;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
 
 // Run on load

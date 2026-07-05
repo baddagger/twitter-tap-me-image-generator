@@ -268,7 +268,58 @@
                                     Resolution must be large enough to trigger Twitter timeline Nearest Neighbor downsampling.
                                 </p>
                             </div>
+
+                            <div class="form-group">
+                                <label data-i18n="label-compression"
+                                    >PNG Compression</label
+                                >
+                                <div
+                                    class="ratio-chips"
+                                    id="compression-chips"
+                                >
+                                    <button
+                                        type="button"
+                                        class="chip-btn active"
+                                        data-value="0"
+                                        data-i18n="option-lossless"
+                                    >
+                                        Lossless (Max Quality)
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="chip-btn"
+                                        data-value="256"
+                                        data-i18n="option-q256"
+                                    >
+                                        256 Colors (Smaller File)
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="chip-btn"
+                                        data-value="64"
+                                        data-i18n="option-q64"
+                                    >
+                                        64 Colors (Smallest File)
+                                    </button>
+                                </div>
+                                <p
+                                    class="field-desc"
+                                    data-i18n="desc-compression"
+                                >
+                                    Lossless keeps full quality. Color-quantized options produce smaller files with reduced color fidelity; the tap-me effect still works.
+                                </p>
+                            </div>
                         </div>
+
+                        <p class="status-line">
+                            <strong data-i18n="status-label">Status:</strong>
+                            <span
+                                id="status-text"
+                                class="status-idle"
+                                data-i18n="status-idle"
+                                >Waiting for inputs...</span
+                            >
+                        </p>
 
                         <div class="action-area">
                             <button
@@ -282,11 +333,12 @@
                             </button>
                             <button
                                 type="button"
-                                class="btn-secondary hidden"
+                                class="btn-secondary"
                                 id="btn-download"
+                                disabled
                             >
                                 <span class="btn-text" data-i18n="btn-download"
-                                    >Download Lossless PNG</span
+                                    >Download PNG</span
                                 >
                             </button>
                         </div>
@@ -377,17 +429,6 @@
                                     </div>
                                 </div>
                                 <div class="inspect-info">
-                                    <p>
-                                        <strong data-i18n="status-label"
-                                            >Status:</strong
-                                        >
-                                        <span
-                                            id="status-text"
-                                            class="status-idle"
-                                            data-i18n="status-idle"
-                                            >Waiting for inputs...</span
-                                        >
-                                    </p>
                                     <p
                                         class="inspect-hint"
                                         data-i18n="inspect-hint"
