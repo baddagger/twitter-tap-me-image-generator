@@ -765,7 +765,14 @@ function downloadOutputImage() {
   const url = URL.createObjectURL(blob);
 
   const link = document.createElement('a');
-  const timestamp = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const timestamp = `${year}${month}${day}_${hours}${minutes}`;
+
   link.download = `tapme_${timestamp}.png`;
   link.href = url;
   document.body.appendChild(link);
