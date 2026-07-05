@@ -228,7 +228,7 @@
                                     class="field-desc"
                                     data-i18n="desc-resolution"
                                 >
-                                    Resolution must be large enough to trigger Twitter timeline Nearest Neighbor downsampling.
+                                    Resolution must be an exact multiple of Twitter preview sizes (e.g., 1400px or 2112px) so that the downsampling grid aligns perfectly with the interlocking pattern.
                                 </p>
                             </div>
 
@@ -373,7 +373,7 @@
                                     class="sim-footer-desc"
                                     data-i18n="timeline-desc"
                                 >
-                                    When browsing on the timeline, the algorithm only selects cover pixels; the hidden image is completely concealed.
+                                    On the timeline, transparent cover areas trigger Alpha thresholding to fully hide the background. However, solid areas will blend 50/50. Opaque elements in your cover must be backed by opaque pixels in the hidden image, or they will be devoured/turned transparent due to low average alpha.
                                 </p>
                             </div>
 
@@ -386,7 +386,7 @@
                                     <span
                                         class="sim-hint"
                                         data-i18n="click-hint"
-                                        >Downsampled 2x2 pixels to 1 pixel (Offset 1,1)</span
+                                        >Simulated Lightbox: Rendered with near 1:1 original pixel grid</span
                                     >
                                 </div>
                                 <div class="sim-frame" id="sim-frame-full">
@@ -398,7 +398,7 @@
                                     class="sim-footer-desc"
                                     data-i18n="click-desc"
                                 >
-                                    When expanded, the sampling offset shifts, revealing the full hidden image content.
+                                    When expanded, the image renders at or near its original resolution, allowing the hidden image to be clearly revealed.
                                 </p>
                             </div>
                         </div>
