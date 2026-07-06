@@ -19,8 +19,8 @@ To achieve the best chance of a successful "click-to-reveal" double-layer effect
 * **How the generator handles this**: After compositing the two images into the checkerboard grid, all alpha values are binarized with a threshold of 128 (≥128 → 255, <128 → 0). This ensures the `tRNS` chunk contains only `0` and `255` values, matching the format of known working images.
 
 ### 3. Aspect Ratio & Grid Alignment
-* **Vertical Formats Only**: Currently, **square (1:1) and landscape (horizontal) images are confirmed to fail the click-to-reveal effect in the expanded view**. Only vertical formats (such as **2:3**, **3:4**, or **9:16**) have been shown to work.
-* **Width Multiples**: X timeline displays vertical cards at ~700px wide. Using **1400px** (2x) or **2112px** (3x) width aligns best with the timeline downsampling grid.
+* **Vertical Ratios Recommended**: Although the generator supports square (`1:1`) and landscape formats (`3:2`, `4:3`, `16:9`), **vertical formats (such as 2:3, 3:4, or 9:16) are highly recommended**. Square and landscape formats are less stable and may fail to trigger the click-to-reveal effect in some X/Twitter client versions.
+* **Width Multiples**: X timeline displays vertical cards at ~700px wide. Using **2112px** (3x, Recommended) or **1400px** (2x) width aligns best with the timeline downsampling grid. Note that **1400px** is relatively low and might not reliably trigger the double-layer effect on some devices.
 * **2x2 Checkerboard**: This pattern provides 2-phase redundancy (both odd-sum phases contain the cover, both even-sum phases contain the hidden image). It reduces the chance of blending if the client's downsampling offset shifts by 1 pixel.
 
 ### 4. Content Contrast & Blending
