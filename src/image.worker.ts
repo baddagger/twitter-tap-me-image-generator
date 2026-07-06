@@ -3,7 +3,7 @@ import UPNG from 'upng-js';
 const ctx = self as any;
 
 ctx.onmessage = (e: MessageEvent) => {
-  const { thumbBuffer, fullBuffer, targetWidth, targetHeight, pattern, cnum, forceTransparent } = e.data;
+  const { thumbBuffer, fullBuffer, targetWidth, targetHeight, pattern, cnum } = e.data;
 
   const thumbPixels = new Uint8ClampedArray(thumbBuffer);
   const fullPixels = new Uint8ClampedArray(fullBuffer);
@@ -59,11 +59,7 @@ ctx.onmessage = (e: MessageEvent) => {
     outPixels[i] = outPixels[i]! >= 128 ? 255 : 0;
   }
 
-  // Force top-left 1x1 pixel to be fully transparent (alpha=0) if enabled.
-  // Having at least one transparent palette entry in tRNS forces Twitter to keep PNG format.
-  if (forceTransparent && outPixels.length >= 4) {
-    outPixels[3] = 0;
-  }
+
 
   // Notify main thread that we are starting compression
   ctx.postMessage({ type: 'status', status: 'compressing' });
