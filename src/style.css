@@ -65,18 +65,57 @@ body {
 
 .logo-area {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 18px;
 }
 
-.logo-decorator {
-  width: 12px;
-  height: 12px;
+.grid-logo {
+  display: inline-grid;
+  grid-template-columns: repeat(4, 10px);
+  grid-template-rows: repeat(4, 10px);
+  gap: 3px;
+  background: rgba(185, 99, 71, 0.04);
+  border: 1.5px solid rgba(185, 99, 71, 0.15);
+  padding: 5px;
+  border-radius: var(--radius-md);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(185, 99, 71, 0.05);
+  transition: var(--transition-smooth);
+}
+
+.grid-logo:hover {
+  border-color: rgba(185, 99, 71, 0.35);
+  box-shadow: 0 6px 18px rgba(185, 99, 71, 0.1);
+}
+
+.grid-pixel {
+  width: 10px;
+  height: 10px;
   border-radius: 2px;
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.grid-pixel.dark {
   background: var(--accent-green);
-  transform: rotate(45deg);
-  display: inline-block;
+}
+
+.grid-pixel.light {
+  background: rgba(185, 99, 71, 0.2);
+}
+
+/* Hover swap simulation of offset shift */
+.grid-logo:hover .grid-pixel.dark {
+  background: rgba(185, 99, 71, 0.2);
+  transform: scale(0.9);
+}
+
+.grid-logo:hover .grid-pixel.light {
+  background: var(--accent-green);
+  transform: scale(1.1);
 }
 
 .personalized-title {
