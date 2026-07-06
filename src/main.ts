@@ -30,7 +30,7 @@ const translations = {
   zh: {
     "subtitle": "推特新版“点开变图”双层图生成器",
     "card1-title": "1. 配置输入图像",
-    "card1-desc": "💡 表图（封面）是里图（大图）的一部分且位置对应，且表图其余部分保持透明时拥有最佳效果（透明区域会触发系统 Alpha 阈值归零进而完全隐藏里图，而不透明区域会产生双图叠加混合）。",
+    "card1-desc": "表图（封面）是里图（大图）的一部分且位置对应，且表图其余部分保持透明时拥有最佳效果（透明区域会触发系统 Alpha 阈值归零进而完全隐藏里图，而不透明区域会产生双图叠加混合）。",
     "label-thumb": "表图 (在推特时间线预览时显示的图片)",
     "upload-thumb-text": "点击或拖拽上传表图",
     "upload-thumb-hint": "建议使用比例 1:1，色彩较简单的图",
@@ -39,7 +39,7 @@ const translations = {
     "upload-full-hint": "建议使用与表图相同的比例 (1:1)",
     "card2-title": "2. 生成设置",
     "label-aspect": "图片比例",
-    "desc-aspect": "设置输出图像的宽高比。不同比例会对应进行裁切。",
+    "desc-aspect": "设置输出图像的宽高比。不同比例会对应进行裁切（更推荐使用竖屏比例）。",
     "label-pattern": "交错掩码图案",
     "option-tetromino": "4x4 T-Tetromino (抗摩尔纹, 推荐)",
     "option-checkerboard": "2x2 Checkerboard (经典棋盘格)",
@@ -75,15 +75,16 @@ const translations = {
     "error-text": "错误: ",
     "inspect-hint": "生成的图片包含高频像素网络。放大后可看见交错分布的凸字形像素。",
 
-    "warning-size": "⚠️ 警告：文件大小超过 1.46 MB，上传推特可能会被强行压缩为 JPEG 导致双层图失效！建议在“PNG 压缩方式”中选择 256 色，或调小目标分辨率。",
-    "suffix-recommend": " (2x 缩放, 推荐)",
-    "suffix-hd": " (3x 缩放, 高清)",
+    "warning-size": "警告：文件大小超过 1.46 MB，上传推特可能会被强行压缩为 JPEG 导致双层图失效！建议在“PNG 压缩方式”中选择 256 色，或调小目标分辨率。",
+    "warning-low-res": "1400px 分辨率偏低，可能无法在所有设备上稳定触发双图效果。",
+    "suffix-recommend": " (3x 缩放, 推荐)",
+    "suffix-low": " (2x 缩放, 偏低 - 可能无法触发效果)",
     "suffix-4x": " (4x 缩放)"
   },
   en: {
     "subtitle": "Twitter Click-to-Reveal Double-Layer Image Generator",
     "card1-title": "1. Configure Input Images",
-    "card1-desc": "💡 Best effect is achieved when the cover is a part of the hidden image (aligned), and the rest of the cover remains transparent (transparent areas trigger Alpha thresholding to fully hide the background, while solid areas will blend both layers).",
+    "card1-desc": "Best effect is achieved when the cover is a part of the hidden image (aligned), and the rest of the cover remains transparent (transparent areas trigger Alpha thresholding to fully hide the background, while solid areas will blend both layers).",
     "label-thumb": "Cover Image (Visible on timeline thumbnail)",
     "upload-thumb-text": "Click or drag to upload cover image",
     "upload-thumb-hint": "Recommended 1:1 ratio, simple color image",
@@ -92,7 +93,7 @@ const translations = {
     "upload-full-hint": "Recommended same 1:1 ratio as cover image",
     "card2-title": "2. Generation Settings",
     "label-aspect": "Image Ratio",
-    "desc-aspect": "Set the aspect ratio of the output image. Different ratios will be cropped accordingly.",
+    "desc-aspect": "Set the aspect ratio of the output image. Different ratios will be cropped accordingly (vertical/portrait ratios are more recommended).",
     "label-pattern": "Interlocking Pattern",
     "option-tetromino": "4x4 T-Tetromino (Anti-moire, Recommended)",
     "option-checkerboard": "2x2 Checkerboard (Classic Checkerboard)",
@@ -128,15 +129,16 @@ const translations = {
     "error-text": "Error: ",
     "inspect-hint": "The generated image contains a high-frequency grid. Zoom in to see the interlocking tetrominoes.",
 
-    "warning-size": "⚠️ Warning: File size exceeds 1.46 MB. Uploading to Twitter/X may trigger force-compression to JPEG, breaking the effect! Recommend selecting 256 Colors or lowering target resolution.",
-    "suffix-recommend": " (2x scale, Recommended)",
-    "suffix-hd": " (3x scale, HD)",
+    "warning-size": "Warning: File size exceeds 1.46 MB. Uploading to Twitter/X may trigger force-compression to JPEG, breaking the effect! Recommend selecting 256 Colors or lowering target resolution.",
+    "warning-low-res": "1400px resolution is low and may not reliably trigger the click-to-reveal effect on all devices.",
+    "suffix-recommend": " (3x scale, Recommended)",
+    "suffix-low": " (2x scale, Low - may not trigger effect)",
     "suffix-4x": " (4x scale)"
   },
   ja: {
     "subtitle": "Twitter新版「クリックで画像変化」ダブルレイヤー画像作成器",
     "card1-title": "1. 入力画像の設定",
-    "card1-desc": "💡 表画像が裏画像の一部で位置が一致し、残りの部分が透明な場合に最高の効果が得られます（透明領域はAlpha閾値により裏画像を完全に隠し、不透明領域は両方の画像が混ざり合います）。",
+    "card1-desc": "表画像が裏画像の一部で位置が一致し、残りの部分が透明な場合に最高の効果が得られます（透明領域はAlpha閾値により裏画像を完全に隠し、不透明領域は両方の画像が混ざり合います）。",
     "label-thumb": "表画像 (タイムラインのサムネイルで表示される画像)",
     "upload-thumb-text": "クリックまたはドラッグで表画像をアップロード",
     "upload-thumb-hint": "アスペクト比 1:1、シンプルな配色の画像を推奨",
@@ -145,7 +147,7 @@ const translations = {
     "upload-full-hint": "表画像と同じアスペクト比 (1:1) を推奨",
     "card2-title": "2. 生成设置",
     "label-aspect": "画像比率",
-    "desc-aspect": "出力画像のアスペクト比を設定します。比率に合わせてクロップされます。",
+    "desc-aspect": "出力画像のアスペクト比を設定します。比率に合わせてクロップされます（縦向きの比率をより推奨します）。",
     "label-pattern": "インターロックパターン",
     "option-tetromino": "4x4 T-Tetromino (モアレ防止、推奨)",
     "option-checkerboard": "2x2 Checkerboard (クラシックチェッカーボード)",
@@ -181,15 +183,16 @@ const translations = {
     "error-text": "エラー: ",
     "inspect-hint": "生成された画像には高周波ピクセルグリッドが含まれています。拡大するとインターロックされたTテトロミノピクセルが確認できます。",
 
-    "warning-size": "⚠️ 警告：ファイルサイズが 1.46 MB を超えています。TwitterにアップロードするとJPEGに強制変換され、効果が失われる可能性があります！256色圧縮を選択するか、解像度を下げてください。",
-    "suffix-recommend": " (2xスケール, 推奨)",
-    "suffix-hd": " (3xスケール, 高画質)",
+    "warning-size": "警告：ファイルサイズが 1.46 MB を超えています。TwitterにアップロードするとJPEGに強制変換され、効果が失われる可能性があります！256色圧縮を選択するか、解像度を下げてください。",
+    "warning-low-res": "1400px解像度は低いため、一部のデバイスでダブルレイヤー効果が正しく動作しない可能性があります。",
+    "suffix-recommend": " (3xスケール, 推奨)",
+    "suffix-low": " (2xスケール, 低い - 効果が出ない可能性があります)",
     "suffix-4x": " (4xスケール)"
   },
   ko: {
     "subtitle": "트위터 신버전 \"클릭하면 바뀌는 이미지\" 더블 레이어 이미지 생성기",
     "card1-title": "1. 입력 이미지 설정",
-    "card1-desc": "💡 겉 이미지가 속 이미지의 일부이고 위치가 일치하며, 겉 이미지의 나머지 영역이 투명할 때 가장 좋은 효과를 냅니다 (투명 영역은 Alpha 임계값으로 인해 속 이미지를 완전히 숨기고, 불투명 영역은 두 이미지가 혼합됩니다).",
+    "card1-desc": "겉 이미지가 속 이미지의 일부이고 위치가 일치하며, 겉 이미지의 나머지 영역이 투명할 때 가장 좋은 효과를 냅니다 (투명 영역은 Alpha 임계값으로 인해 속 이미지를 완전히 숨기고, 불투명 영역은 두 이미지가 혼합됩니다).",
     "label-thumb": "겉 이미지 (타임라인 썸네일에서 보이는 이미지)",
     "upload-thumb-text": "클릭 또는 드래그하여 겉 이미지 업로드",
     "upload-thumb-hint": "1:1 비율 및 색상이 단순한 이미지 권장",
@@ -198,7 +201,7 @@ const translations = {
     "upload-full-hint": "겉 이미지와 동일한 비율 (1:1) 권장",
     "card2-title": "2. 생성 설정",
     "label-aspect": "이미지 비율",
-    "desc-aspect": "출력 이미지의 가로세로 비율을 설정합니다. 비율에 따라 이미지가 크롭됩니다.",
+    "desc-aspect": "출력 이미지의 가로세로 비율을 설정합니다. 비율에 따라 이미지가 크롭됩니다 (세로 비율을 더 권장합니다).",
     "label-pattern": "교차 마스크 패턴",
     "option-tetromino": "4x4 T-Tetromino (모아레 현상 방지, 권장)",
     "option-checkerboard": "2x2 Checkerboard (클래식 체크판)",
@@ -234,9 +237,10 @@ const translations = {
     "error-text": "오류: ",
     "inspect-hint": "생성된 이미지에는 고주파 픽셀 그리드가 포함되어 있습니다. 확대하면 교차 배열된 T-태트로미노 픽셀을 볼 수 있습니다.",
 
-    "warning-size": "⚠️ 경고: 파일 크기가 1.46 MB를 초과했습니다. 트위터에 업로드할 때 JPEG로 강제 압축되어 효과가 손상될 수 있습니다! 256색 압축을 선택하거나 해상도를 낮추는 것을 권장합니다.",
-    "suffix-recommend": " (2x 배율, 권장)",
-    "suffix-hd": " (3x 배율, 고화질)",
+    "warning-size": "경고: 파일 크기가 1.46 MB를 초과했습니다. 트위터에 업로드할 때 JPEG로 강제 압축되어 효과가 손상될 수 있습니다! 256색 압축을 선택하거나 해상도를 낮추는 것을 권장합니다.",
+    "warning-low-res": "1400px 해상도는 다소 낮아 일부 기기에서 더블 레이어 효과가 정상적으로 작동하지 않을 수 있습니다.",
+    "suffix-recommend": " (3x 배율, 권장)",
+    "suffix-low": " (2x 배율, 낮음 - 효과가 나타나지 않을 수 있음)",
     "suffix-4x": " (4x 배율)"
   }
 };
@@ -357,11 +361,10 @@ function updateResolutionOptions() {
     ratioH = parseInt(parts[1] || '1', 10);
   }
 
-  const currentSelectedValue = selectResolution.value || '1400';
+  const currentSelectedValue = selectResolution.value || '2112';
   selectResolution.innerHTML = '';
 
   const dict = translations[state.currentLang];
-  // baseWidths are multiples of 700/704 pixels to fit the timeline container perfectly
   const baseWidths = [1400, 2112, 2800];
   baseWidths.forEach(wSize => {
     let w = wSize;
@@ -375,20 +378,33 @@ function updateResolutionOptions() {
     option.value = w.toString();
     
     let labelSuffix = '';
-    if (wSize === 1400) labelSuffix = dict['suffix-recommend'] || '';
-    else if (wSize === 2112) labelSuffix = dict['suffix-hd'] || '';
+    if (wSize === 1400) labelSuffix = dict['suffix-low'] || '';
+    else if (wSize === 2112) labelSuffix = dict['suffix-recommend'] || '';
     else if (wSize === 2800) labelSuffix = dict['suffix-4x'] || '';
     
     option.textContent = `${w} x ${h}${labelSuffix}`;
 
     if (w.toString() === currentSelectedValue) {
       option.selected = true;
-    } else if (!currentSelectedValue && wSize === 1400) {
+    } else if (!currentSelectedValue && wSize === 2112) {
       option.selected = true;
     }
 
     selectResolution.appendChild(option);
   });
+
+  checkResolutionWarning();
+}
+
+// Check and display/hide low-resolution warning
+function checkResolutionWarning() {
+  const warningEl = document.getElementById('resolution-warning');
+  if (!warningEl) return;
+  if (selectResolution.value === '1400') {
+    warningEl.classList.remove('hidden');
+  } else {
+    warningEl.classList.add('hidden');
+  }
 }
 
 // Update aspect ratio of simulator preview frames in real-time
@@ -453,6 +469,9 @@ function setupEventListeners() {
       btn.classList.add('active');
     });
   });
+
+  // Resolution change warning
+  selectResolution.addEventListener('change', checkResolutionWarning);
 
   // Action Buttons
   btnGenerate.addEventListener('click', generateTapMeImage);

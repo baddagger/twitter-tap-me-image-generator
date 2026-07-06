@@ -210,10 +210,24 @@
                                 >
                                     <button
                                         type="button"
+                                        class="chip-btn"
+                                        data-value="1:1"
+                                    >
+                                        1:1
+                                    </button>
+                                    <button
+                                        type="button"
                                         class="chip-btn active"
                                         data-value="2:3"
                                     >
                                         2:3
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="chip-btn"
+                                        data-value="3:2"
+                                    >
+                                        3:2
                                     </button>
                                     <button
                                         type="button"
@@ -225,9 +239,23 @@
                                     <button
                                         type="button"
                                         class="chip-btn"
+                                        data-value="4:3"
+                                    >
+                                        4:3
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="chip-btn"
                                         data-value="9:16"
                                     >
                                         9:16
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="chip-btn"
+                                        data-value="16:9"
+                                    >
+                                        16:9
                                     </button>
                                 </div>
                                 <p class="field-desc" data-i18n="desc-aspect">
@@ -244,6 +272,13 @@
                                 <select id="select-resolution">
                                     <!-- Dynamically populated by JS based on ratio -->
                                 </select>
+                                <div
+                                    id="resolution-warning"
+                                    class="hidden"
+                                    style="color: hsl(25, 65%, 45%); font-size: 0.8rem; margin-top: 6px; font-weight: 500; line-height: 1.4;"
+                                >
+                                    <span data-i18n="warning-low-res">1400px resolution is low and may not reliably trigger the click-to-reveal effect on all devices.</span>
+                                </div>
                                 <p
                                     class="field-desc"
                                     data-i18n="desc-resolution"
